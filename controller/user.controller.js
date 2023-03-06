@@ -13,12 +13,8 @@ const generateJWT = (user) => {
 
 const addUser = async (req, res) => {
   const { name, email, password } = req.body;
-  const existingUser = User.findOne({ email: req.body.email });
-  if (existingUser) {
-    return res
-      .status(200)
-      .send({ message: "User allready Exist", success: "false" });
-  }
+  // const existingUser = User.findOne({ email: req.body.email });
+ 
   const hashedPassword = await bcrypt.hashSync(password, 10);
   await User.create({ name, email, password: hashedPassword })
     .then((data) => {
@@ -75,7 +71,7 @@ const loginUser = async (req, res) => {
 const authContoller = async (req, res) => {
   try {
     const authuser = await User.findOne({ _id: req.body._id });
-
+console.log(req.body._id )
     if (!authuser) {
       return res.status(200).send({
         message: "user not found",
