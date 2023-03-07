@@ -47,6 +47,7 @@ const loginUser = async (req, res) => {
           success: true,
           message: "Login Successfull",
           _id: user._id,
+          name:user.name,
           email: user.email,
           jwt: token,
         });
