@@ -50,6 +50,7 @@ const loginUser = async (req, res) => {
           name:user.name,
           email: user.email,
           jwt: token,
+        isAdmin:user.isAdmin ,
         });
       } else {
         res.status(403).send({
@@ -71,7 +72,7 @@ const loginUser = async (req, res) => {
 
 const authContoller = async (req, res) => {
   try {
-    const authuser = await User.findOne({ _id: req.body._id });
+    const authuser = await User.findById({ _id: req.body._id });
 console.log(req.body._id )
     if (!authuser) {
       return res.status(200).send({
@@ -82,8 +83,7 @@ console.log(req.body._id )
       res.status(200).send({
         success: true,
         data: {
-          name: authuser.name,
-          email: authuser.email,
+         authuser
         },
       });
     }
