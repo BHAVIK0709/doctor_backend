@@ -33,4 +33,19 @@ try {
 
 }
 }
-module.exports = { applydoctor };
+
+const getAllNoti =  async(req,res) =>{
+    try {
+         const doctorNoti = await userModel.findOne({_id:req.body.userId})
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            message:"error in notification",
+            success:false,
+            error
+        })
+    }
+
+}
+module.exports = { applydoctor,getAllNoti };
