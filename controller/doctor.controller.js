@@ -1,4 +1,3 @@
-
 const doctorModel = require('../models/doctorModel');
 const userModel = require('../models/userModel');
 
@@ -37,7 +36,19 @@ try {
 const getAllNoti =  async(req,res) =>{
     try {
          const doctorNoti = await userModel.findOne({_id:req.body.userId})
-        
+         console.log(doctorNoti)
+         const seennotification = doctorNoti.seennotification
+         const notification= doctorNoti.notification
+         seennotification.push(notification)
+         doctorNoti.notification=[]
+         doctorNoti.seennotification = notification
+
+         const updatedDoctorNoti = await doctorNoti.save()
+         res.status(200).send({
+            success:true,
+            message:"all notification marked as read",
+            data:updatedDoctorNoti,
+         })
     } catch (error) {
         console.log(error)
         res.status(500).send({
@@ -48,4 +59,28 @@ const getAllNoti =  async(req,res) =>{
     }
 
 }
-module.exports = { applydoctor,getAllNoti };
+
+const deleteAllNoti =async (req,res) =>{
+    try { 
+         const user = await userModel.findOne({_id:req.body.userId})
+         user.notification= []
+         user.seennotification=[]
+         const updatedUser = user.save()
+         updatedUser.password = undefined
+         res.status(200).send({
+            success:true,
+            message:"Notification deleted successfully ",
+            data:updatedUser
+         })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:"unable to delete all notification",
+            error
+        })
+    }
+
+}
+
+module.exports = { applydoctor,getAllNoti,deleteAllNoti };

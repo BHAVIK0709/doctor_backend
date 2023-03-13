@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+const UserModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -13,10 +13,10 @@ const generateJWT = (user) => {
 
 const addUser = async (req, res) => {
   const { name, email, password } = req.body;
-  // const existingUser = User.findOne({ email: req.body.email });
+  // const existingUser = UserModel.findOne({ email: req.body.email });
  
   const hashedPassword = await bcrypt.hashSync(password, 10);
-  await User.create({ name, email, password: hashedPassword })
+  await UserModel.create({ name, email, password: hashedPassword })
     .then((data) => {
       res.json(data).status(200);
     })
@@ -26,7 +26,7 @@ const addUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  await User.find()
+  await UserModel.find()
     .then((data) => {
       res.status(200).send(data);
     })
@@ -38,7 +38,7 @@ const getUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email: email });
+    const user = await UserModel.findOne({ email: email });
     if (user) {
       const isMatched = bcrypt.compareSync(password, user.password);
       if (isMatched) {
@@ -52,6 +52,7 @@ const loginUser = async (req, res) => {
           jwt: token,
         isAdmin:user.isAdmin ,
         notification:user.notification,
+        seennotification:user.seennotification
         });
       } else {
         res.status(403).send({
@@ -72,10 +73,10 @@ const loginUser = async (req, res) => {
 };
 
 const authContoller = async (req, res) => {
-  console.log('wjueue',req.body)
+  // console.log('wjueue',req.body)
   try {
-    const authuser = await User.findById({ _id: req.body._id });
-console.log(req.body._id )
+    const authuser = await UserModel.findById({ _id: req.body._id });
+// console.log(req.body._id )
     if (!authuser) {
       return res.status(200).send({
         message: "user not found",
