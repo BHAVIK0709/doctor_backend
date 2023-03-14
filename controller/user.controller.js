@@ -52,7 +52,8 @@ const loginUser = async (req, res) => {
           jwt: token,
         isAdmin:user.isAdmin ,
         notification:user.notification,
-        seennotification:user.seennotification
+        seennotification:user.seennotification,
+        isDoctor:user.isDoctor,
         });
       } else {
         res.status(403).send({
@@ -75,8 +76,8 @@ const loginUser = async (req, res) => {
 const authContoller = async (req, res) => {
   // console.log('wjueue',req.body)
   try {
-    const authuser = await UserModel.findById({ _id: req.body._id });
-// console.log(req.body._id )
+    const authuser = await UserModel.findById({ _id: req.body.userId });
+// console.log(authuser)
     if (!authuser) {
       return res.status(200).send({
         message: "user not found",

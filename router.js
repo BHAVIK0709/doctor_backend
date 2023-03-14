@@ -8,6 +8,6 @@ const adminRoutes = require('./router/admin.router');
 
 RootRoutes.use('/', userRoutes);
 RootRoutes.use('/' ,doctorRoutes);
-RootRoutes.use('/',adminRoutes);
+RootRoutes.use('/admin',adminRoutes);
 
 module.exports = RootRoutes;  

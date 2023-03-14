@@ -83,4 +83,26 @@ const deleteAllNoti =async (req,res) =>{
 
 }
 
-module.exports = { applydoctor,getAllNoti,deleteAllNoti };
+const doctorInfo =async (req,res) =>{
+    try { 
+         const doctor = await doctorModel.findOne({userId:req.body.userId})
+
+         res.status(200).send({
+            success:true,
+            message:"Doctor data fetched ",
+            data:doctor
+         })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:"error in fetching doctor details",
+            error
+        })
+    }
+
+}
+
+
+
+module.exports = { applydoctor,getAllNoti,deleteAllNoti ,doctorInfo};
