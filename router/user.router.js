@@ -15,4 +15,4 @@ userRoutes.post('/book-apponitment',authenticateJWT, bookAppointmentCtrl);
 //Booking availibility
 userRoutes.post('/booking-availibility',authenticateJWT,bookingAvailityCtrl);
 
-module.exports = userRoutes;
+module.exports = userRoutes;          
